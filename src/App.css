@@ -1,3 +1,75 @@
-.App {
+h1 {
   text-align: center;
+}
+
+.workspace {
+  background-color: #ffffe0;
+  width: 850px;
+  height: 500px;
+  margin: 0 auto;
+  padding: 40px 40px;
+  box-shadow: 0 0 8px black;
+}
+
+#color_palette {
+  float: left;
+}
+
+.color {
+  height: 50px;
+  width: 50px;
+  border: 1px solid #aaa;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#red {
+  background-color: #cc0000;
+}
+
+#yellow {
+  background-color: #ffec00;
+}
+
+#blue {
+  background-color: #0000cc;
+}
+
+#white {
+  background-color: white;
+}
+
+.canvas {
+  float: right;
+  height: 500px;
+  width: 700px;
+  border: 1px solid #333;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 0.5fr 0.8fr;
+}
+
+.zone {
+  cursor: pointer;
+  border: 5px solid black;
+  background-color: white;
+}
+
+.one {
+  height: 100px;
+  background-color: white;
+}
+
+.two {
+  height: 170px;
+}
+
+.three {
+  height: 80px;
+}
+
+.four {
+  height: 130px;
 }
