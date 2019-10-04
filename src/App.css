@@ -5,7 +5,7 @@ h1 {
 .workspace {
   background-color: #ffffe0;
   width: 850px;
-  height: 500px;
+  height: 520px;
   margin: 0 auto;
   padding: 40px 40px;
   box-shadow: 0 0 8px black;
@@ -39,14 +39,15 @@ h1 {
   background-color: white;
 }
 
-.canvas {
+button {
+  font-size: 18px;
+}
+
+#canvas {
   float: right;
   height: 500px;
   width: 700px;
   border: 1px solid #333;
-}
-
-.container {
   display: grid;
   grid-template-columns: 1fr 1.8fr 0.5fr 0.8fr;
 }
@@ -59,7 +60,6 @@ h1 {
 
 .one {
   height: 100px;
-  background-color: white;
 }
 
 .two {
