@@ -18,7 +18,7 @@ function App() {
   }
   return (
     <div>
-      <h1>Technicolor Box</h1>
+      <h1>Technicolor Box - Touch the box to reveal the color</h1>
       <div className="container">
         {boxesId.map((boxId) => {
           return (
