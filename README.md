@@ -1,9 +1,11 @@
-# Website-FTW
+# Scissors Paper Stone
 
-Inspired by #100DaysOfCode and Jennifer Dewalt's challenge: 180 websites in 180 days, here is a collection of small projects to practice my existing and new skills in software development. The portfolio can be found here https://edson-portfolio-finder.netlify.com/
+https://edson-scissors-paper-stone.netlify.com/ -- Play game of scissors, paper, stone with computer
 
-## Project Source Code
+## Created Using
 
-- Project 1: [Random-Background-Generator](https://github.com/edsonha/Website-FTW/tree/random-background-generator)
-- Project 2: [Paint-A-Mondrian](https://github.com/edsonha/Website-FTW/tree/paint-a-mondrian)
-- Project 3: [Technicolor-Box](https://github.com/edsonha/Website-FTW/tree/technicolor-box)
+- React (previous state, set-interval, set-timeout)
+
+## Screenshot
+
+![Scissors Paper Stone](https://user-images.githubusercontent.com/37479186/67147094-2fbdf200-f2c4-11e9-882b-d687a413973b.jpg)
