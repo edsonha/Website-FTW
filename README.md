@@ -1,10 +1,13 @@
-# Website-FTW
+# Robofriends Typescript
 
-Inspired by #100DaysOfCode and Jennifer Dewalt's challenge: 180 websites in 180 days, here is a collection of small projects to practice my existing and new skills in software development.
+https://edson-robofriends-typescript.netlify.com/ -- Search your robot friends on a list
 
-## Project Source Code
+## Created Using
 
-- Project 1: [Random-Background-Generator](https://github.com/edsonha/Website-FTW/tree/random-background-generator)
-- Project 2: [Paint-A-Mondrian](https://github.com/edsonha/Website-FTW/tree/paint-a-mondrian)
-- Project 3: [Technicolor-Box](https://github.com/edsonha/Website-FTW/tree/technicolor-box)
-- Project 4: [Scissors-Paper-Stone](https://github.com/edsonha/Website-FTW/tree/scissors-paper-stone)
+- React
+- Typescript
+- Tachyons
+
+## Screenshot
+
+![Robofriends-Typescript](https://user-images.githubusercontent.com/37479186/68078893-c4733480-fe1a-11e9-8125-4bec402a952e.jpg)
