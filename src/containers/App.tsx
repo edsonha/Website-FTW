@@ -5,16 +5,29 @@ import Scroll from "../components/Scroll";
 import axios from "axios";
 import "./App.css";
 
-class App extends Component {
-  constructor(props) {
+export interface IRobot {
+  name: string;
+  id: number;
+  email: string;
+}
+
+interface IAppProps {}
+
+interface IAppState {
+  robots: Array<IRobot>;
+  searchField: string;
+}
+
+class App extends Component<IAppProps, IAppState> {
+  constructor(props: IAppProps) {
     super(props);
     this.state = {
-      searchField: "",
-      robots: []
+      robots: [],
+      searchField: ""
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     axios({
       method: "get",
       url: "https://jsonplaceholder.typicode.com/users"
@@ -27,11 +40,11 @@ class App extends Component {
       });
   }
 
-  searchRobot = event => {
-    this.setState({ searchField: event.target.value });
+  searchRobot = (event: React.SyntheticEvent<HTMLInputElement>): void => {
+    this.setState({ searchField: event.currentTarget.value });
   };
 
-  render() {
+  render(): JSX.Element {
     const { robots, searchField } = this.state;
     const filteredRobots = robots.filter(robot => {
       return robot.name.toLowerCase().includes(searchField.toLocaleLowerCase());

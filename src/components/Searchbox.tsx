@@ -1,6 +1,10 @@
 import React from "react";
 
-const SearchBox = ({ searchRobot }) => {
+interface ISearchBoxProps {
+  searchRobot(event: React.SyntheticEvent<HTMLInputElement>): void; //return void or return nothing
+}
+
+const SearchBox = ({ searchRobot }: ISearchBoxProps) => {
   return (
     <div className="pa2">
       <input
