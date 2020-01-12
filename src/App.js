@@ -12,33 +12,33 @@ class App extends Component {
           squares: Array(9).fill(null)
         }
       ],
-      xIsNext: true,
+      isXNext: true,
       stepNumber: 0
     };
   }
 
   handleClick = i => {
-    const { xIsNext, stepNumber } = this.state;
+    const { isXNext, stepNumber } = this.state;
     const history = this.state.history.slice(0, stepNumber + 1);
     const current = history[history.length - 1];
     const squaresCopy = current.squares.slice();
     if (calculateWinner(squaresCopy) || squaresCopy[i]) {
       return;
     }
-    squaresCopy[i] = xIsNext ? "X" : "O";
+    squaresCopy[i] = isXNext ? "X" : "O";
     this.setState({
       history: history.concat([{ squares: squaresCopy }]),
       stepNumber: history.length,
-      xIsNext: !xIsNext
+      isXNext: !isXNext
     });
   };
 
   jumpTo(step) {
-    this.setState({ stepNumber: step, xIsNext: step % 2 === 0 });
+    this.setState({ stepNumber: step, isXNext: step % 2 === 0 });
   }
 
   render() {
-    const { history, xIsNext, stepNumber } = this.state;
+    const { history, isXNext, stepNumber } = this.state;
     const current = history[stepNumber];
     const winner = calculateWinner(current.squares);
 
@@ -51,17 +51,24 @@ class App extends Component {
       );
     });
 
-    let status;
+    let status, winningSquare;
     if (winner) {
-      status = `Winner is ${winner}`;
+      status = `Winner is ${winner[0]}`;
+      winningSquare = winner[1];
+    } else if (this.state.stepNumber > current.squares.length - 1) {
+      status = "Draw";
     } else {
-      status = `Next player: ${xIsNext ? "X" : "O"}`;
+      status = `Next player is ${isXNext ? "X" : "O"}`;
     }
 
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onClick={i => this.handleClick(i)} />
+          <Board
+            squares={current.squares}
+            winningSquare={winningSquare}
+            onClick={i => this.handleClick(i)}
+          />
         </div>
         <div className="game-info">
           <div>{status}</div>

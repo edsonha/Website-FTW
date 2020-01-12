@@ -1,8 +1,13 @@
 import React from "react";
 
-function Square({ value, onClick }) {
+function Square({ isWinningSquare, value, onClick }) {
+  const higlightWinner = isWinningSquare ? "yellow" : "";
   return (
-    <button className="square" onClick={onClick}>
+    <button
+      className="square"
+      style={{ backgroundColor: higlightWinner }}
+      onClick={onClick}
+    >
       {value}
     </button>
   );
