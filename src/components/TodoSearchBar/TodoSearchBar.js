@@ -1,14 +1,14 @@
 import React from "react";
 
-function TodoSearchBar({ handleSearch }) {
+function TodoSearchBar({ handleSearchTodo }) {
   return (
     <div className="row">
-      <div className="input-group ml-1 mb-3 col-lg-4">
+      <div className="input-group mb-3 col-lg-3">
         <input
           type="search"
           className="form-control"
           placeholder="Search tasks..."
-          onChange={handleSearch}
+          onChange={handleSearchTodo}
         />
       </div>
     </div>

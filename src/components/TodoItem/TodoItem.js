@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PillButton from "../PillButton/PillButton";
 import "./TodoItem.css";
 
 class TodoItem extends Component {
@@ -14,45 +15,66 @@ class TodoItem extends Component {
     return this.props.isCompleted ? "strike form-control" : "form-control";
   };
 
+  handleEditTodo = () => {
+    this.setState({ isEditing: !this.state.isEditing });
+  };
+
+  handleChangeTodo = event => {
+    this.setState({ editField: event.target.value });
+  };
+
+  handleClickSave = () => {
+    if (!this.state.editField) return;
+    const oldTodo = this.props.task;
+    const edittedTodo = this.state.editField;
+    this.props.handleSaveTodo(oldTodo, edittedTodo);
+    this.setState({ isEditing: !this.state.isEditing });
+  };
+
   renderTodoItem = () => {
     return this.state.isEditing ? (
-      "Hello Change This"
-    ) : (
       <input
-        value={this.props.name}
-        type="text"
-        className={this.evaluateStyle()}
-        disabled
+        defaultValue={this.props.task}
+        className="form-control"
+        onChange={this.handleChangeTodo}
       />
+    ) : (
+      <div className={this.evaluateStyle()}>{this.props.task}</div>
     );
   };
 
   renderTodoButtons = () => {
     return this.state.isEditing ? (
-      "Hello Change This"
+      <div>
+        <PillButton
+          color="badge-success"
+          action={this.handleClickSave}
+          name="SAVE"
+        />
+        <PillButton
+          color="badge-warning"
+          action={this.handleEditTodo}
+          name="CANCEL"
+        />
+      </div>
     ) : (
       <div>
-        <span
-          type="button"
-          className="badge badge-pill badge-primary"
-          onClick={() => this.props.handleSave(this.props.name)}
-        >
-          EDIT
-        </span>
-
-        <span
-          type="button"
-          className="badge badge-pill badge-danger"
-          onClick={() => this.props.handleDelete(this.props.name)}
-        >
-          DELETE
-        </span>
+        <PillButton
+          color="badge-primary"
+          action={this.handleEditTodo}
+          name="EDIT"
+        />
+        <PillButton
+          color="badge-danger"
+          action={() => this.props.handleDeleteTodo(this.props.task)}
+          name="DELETE"
+        />
       </div>
     );
   };
 
   render() {
-    const { name, isCompleted, handleCheckbox } = this.props;
+    const { task, isCompleted, handleCheckboxTodo } = this.props;
 
     return (
       <div className="input-group mb-3">
@@ -60,7 +82,7 @@ class TodoItem extends Component {
           <input
             type="checkbox"
             checked={isCompleted}
-            onChange={() => handleCheckbox(name)}
+            onChange={() => handleCheckboxTodo(task)}
           />
         </div>
         <div>{this.renderTodoItem()}</div>

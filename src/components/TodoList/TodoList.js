@@ -1,15 +1,20 @@
 import React from "react";
 import TodoItem from "../TodoItem/TodoItem";
 
-function TodoList({ data, handleCheckbox, handleSave, handleDelete }) {
-  return data.map(item => {
+function TodoList({
+  data,
+  handleCheckboxTodo,
+  handleSaveTodo,
+  handleDeleteTodo
+}) {
+  return data.map(todo => {
     return (
-      <div key={item.id}>
+      <div key={todo.id}>
         <TodoItem
-          {...item}
-          handleCheckbox={handleCheckbox}
-          handleSave={handleSave}
-          handleDelete={handleDelete}
+          {...todo}
+          handleCheckboxTodo={handleCheckboxTodo}
+          handleSaveTodo={handleSaveTodo}
+          handleDeleteTodo={handleDeleteTodo}
         />
       </div>
     );
