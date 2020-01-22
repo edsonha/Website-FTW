@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import TodoList from "./components/TodoList/TodoList";
 import TodoSearchBar from "./components/TodoSearchBar/TodoSearchBar";
 import TodoCreationBar from "./components/TodoCreationBar/TodoCreationBar";
-import { todos } from "./utils/seedData";
+import { getTodos } from "./utils/seedData";
 import uuidv1 from "uuid/v1";
 
 class App extends Component {
   state = {
-    data: todos,
+    data: getTodos(),
     searchfield: "",
     newTask: ""
   };

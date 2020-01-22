@@ -80,6 +80,7 @@ class TodoItem extends Component {
       <div className="input-group mb-3">
         <div className="input-group-text">
           <input
+            data-testid={`checkbox-${task}`}
             type="checkbox"
             checked={isCompleted}
             onChange={() => handleCheckboxTodo(task)}
