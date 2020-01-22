@@ -1,6 +1,6 @@
 # Todo List
 
-Website Coming Soon -- React Todo List
+https://edson-todo-list.netlify.com/ -- React Todo List
 
 ## Created Using
 
