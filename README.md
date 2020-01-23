@@ -1,11 +1,12 @@
 # Todo List
 
-https://edson-todo-list.netlify.com/ -- React Todo List
+https://edson-todo-list.netlify.com/ -- React Todo List with test using react testing library
 
 ## Created Using
 
 - React
 - Bootstrap
+- React testing library
 
 ## Screenshot
 
