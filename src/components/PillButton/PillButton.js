@@ -4,7 +4,7 @@ function PillButton({ color, action, name, task }) {
   return (
     <button
       className={`badge badge-pill ${color}`}
-      data-testid={`deletebutton-${task}`}
+      data-testid={`${name.toLowerCase()}button-${task}`}
       onClick={action}
     >
       {name}

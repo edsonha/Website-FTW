@@ -11,12 +11,11 @@ it("renders without crashing", () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-const sampleData = [
-  { id: 1, task: "task1", isCompleted: false },
-  { id: 2, task: "task2", isCompleted: true }
-];
-
 beforeEach(() => {
+  const sampleData = [
+    { id: 1, task: "task1", isCompleted: false },
+    { id: 2, task: "task2", isCompleted: true }
+  ];
   jest.spyOn(seedData, "getTodos").mockImplementation(() => sampleData);
 });
 
@@ -62,6 +61,27 @@ describe("Checkbox", () => {
     expect(todo.classList.contains("strike")).toEqual(true);
     fireEvent.click(todoCheckbox);
     expect(todo.classList.contains("strike")).toEqual(false);
+  });
+});
+
+describe("Edit and Save button", () => {
+  it("should be able to edit Todo item, save the editted version and display it in the Todo list", () => {
+    const { getByTestId, getAllByText, getByText, queryByText } = render(
+      <App />
+    );
+    const task1EditButton = getByTestId("editbutton-task1");
+    fireEvent.click(task1EditButton);
+
+    const editField = getByTestId("editfield");
+    fireEvent.change(editField, { target: { value: "task8" } });
+
+    const task1SaveButton = getByTestId("savebutton-task1");
+    fireEvent.click(task1SaveButton);
+
+    expect(getAllByText("EDIT").length).toEqual(2);
+    expect(getByText(/task8/i)).toBeInTheDocument();
+    expect(queryByText(/task1/i)).not.toBeInTheDocument();
+    expect(getByText(/task2/i)).toBeInTheDocument();
   });
 });
 

@@ -35,6 +35,7 @@ class TodoItem extends Component {
     return this.state.isEditing ? (
       <input
         defaultValue={this.props.task}
+        data-testid="editfield"
         className="form-control"
         onChange={this.handleChangeTodo}
       />
@@ -48,6 +49,7 @@ class TodoItem extends Component {
       <div>
         <PillButton
           color="badge-success"
+          task={this.props.task}
           action={this.handleClickSave}
           name="SAVE"
         />
@@ -61,6 +63,7 @@ class TodoItem extends Component {
       <div>
         <PillButton
           color="badge-primary"
+          task={this.props.task}
           action={this.handleEditTodo}
           name="EDIT"
         />
