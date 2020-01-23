@@ -80,3 +80,16 @@ describe("Delete button", () => {
     expect(queryByText(/task2/i)).not.toBeInTheDocument();
   });
 });
+
+describe("Creation bar", () => {
+  it('should add and display new Todo item when "+" button is clicked', () => {
+    const { getByTestId, getAllByText, getByText } = render(<App />);
+    const creationbar = getByTestId("creationbar");
+    const submitButton = getByTestId("submitbutton");
+
+    fireEvent.change(creationbar, { target: { value: "task3" } });
+    fireEvent.click(submitButton);
+    expect(getAllByText("EDIT").length).toEqual(3);
+    expect(getByText(/task3/i)).toBeInTheDocument();
+  });
+});
