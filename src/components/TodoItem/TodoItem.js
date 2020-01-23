@@ -66,6 +66,7 @@ class TodoItem extends Component {
         />
         <PillButton
           color="badge-danger"
+          task={this.props.task}
           action={() => this.props.handleDeleteTodo(this.props.task)}
           name="DELETE"
         />

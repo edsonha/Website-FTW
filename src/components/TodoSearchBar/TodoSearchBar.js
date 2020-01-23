@@ -5,6 +5,7 @@ function TodoSearchBar({ handleSearchTodo }) {
     <div className="row">
       <div className="input-group mb-3 col-lg-3">
         <input
+          data-testid="searchbar"
           type="search"
           className="form-control"
           placeholder="Search tasks..."

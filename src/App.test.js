@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { render, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import seedData from "./utils/seedData";
 
 it("renders without crashing", () => {
@@ -31,8 +32,27 @@ describe("App Homepage", () => {
   });
 });
 
-describe("Todo Item", () => {
-  it("should be marked as completed when checkbox is clicked and Todo Item can revert back to uncompleted status when the checkbox is clicked again", () => {
+describe("Searchbar", () => {
+  it("should be able to search todo item from todo list", () => {
+    const { getByTestId, getAllByText, getByText, queryByText } = render(
+      <App />
+    );
+    const searchbar = getByTestId("searchbar");
+
+    fireEvent.change(searchbar, { target: { value: "task1" } });
+    expect(getAllByText("EDIT").length).toEqual(1);
+    expect(getByText(/task1/i)).toBeInTheDocument();
+    expect(queryByText(/task2/i)).not.toBeInTheDocument();
+
+    fireEvent.change(searchbar, { target: { value: "task2" } });
+    expect(getAllByText("EDIT").length).toEqual(1);
+    expect(getByText(/task2/i)).toBeInTheDocument();
+    expect(queryByText(/task1/i)).not.toBeInTheDocument();
+  });
+});
+
+describe("Checkbox", () => {
+  it("should mark Todo item as completed when it is clicked and Todo item can revert back to uncompleted status when it is clicked again", () => {
     const { getByText, getByTestId } = render(<App />);
     const todo = getByText("task1");
     const todoCheckbox = getByTestId("checkbox-task1");
@@ -42,5 +62,21 @@ describe("Todo Item", () => {
     expect(todo.classList.contains("strike")).toEqual(true);
     fireEvent.click(todoCheckbox);
     expect(todo.classList.contains("strike")).toEqual(false);
+  });
+});
+
+describe("Delete button", () => {
+  it("should delete Todo item when it is clicked", () => {
+    const { queryByText, getAllByText, getByTestId } = render(<App />);
+    const task1DeleteButton = getByTestId("deletebutton-task1");
+    const task2DeleteButton = getByTestId("deletebutton-task2");
+
+    fireEvent.click(task1DeleteButton);
+    expect(getAllByText("EDIT").length).toEqual(1);
+    expect(queryByText(/task1/i)).not.toBeInTheDocument();
+
+    fireEvent.click(task2DeleteButton);
+    expect(queryByText("EDIT")).not.toBeInTheDocument();
+    expect(queryByText(/task2/i)).not.toBeInTheDocument();
   });
 });
