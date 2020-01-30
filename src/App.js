@@ -1,232 +1,164 @@
 import React, { Component } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  LineChart,
-  Line
-} from "recharts";
-
-const data = [
-  {
-    name: "Page A",
-    // uv: 4000,
-    // pv: 2400,
-    amt: 1000
-  },
-  {
-    name: "Page B",
-    // uv: 3000,
-    // pv: 1398,
-    amt: 1500
-  },
-  {
-    name: "Page C",
-    // uv: 2000,
-    // pv: 9800,
-    amt: 2500
-  },
-  {
-    name: "Page D",
-    // uv: 2780,
-    // pv: 3908,
-    amt: 2000
-  },
-  {
-    name: "Page E",
-    // uv: 1890,
-    // pv: 4800,
-    amt: 800
-  }
-];
-
-const options = [
-  { name: "Bar Chart", value: "bar" },
-  { name: "Pie Chart", value: "pie" }
-];
+import { getData } from "./seedData";
+import Barchart from "./components/Barchart";
+import Piechart from "./components/Piechart";
+import InputField from "./components/InputField";
+import Button from "./components/Button";
 
 class App extends Component {
   state = {
-    selectedChart: "bar",
+    isBarchartDisplayed: true,
     nameInput: "",
-    amountInput: 0,
-    data: data
+    appleInput: "",
+    orangeInput: "",
+    data: getData()
   };
 
-  handleSelectChart = event => {
-    this.setState({ selectedChart: event.target.value });
+  handleSelectChart = () => {
+    this.setState({ isBarchartDisplayed: !this.state.isBarchartDisplayed });
   };
 
-  handleNameInput = event => {
-    this.setState({ nameInput: event.target.value });
-  };
-
-  handleAmountInput = event => {
-    this.setState({ amountInput: event.target.value });
+  handleChangeInput = (name, event) => {
+    this.setState({ [name]: event.target.value });
   };
 
   handleCreateData = () => {
+    if (!this.state.nameInput) {
+      return;
+    }
     const copiedData = [...this.state.data];
     copiedData.push({
       name: this.state.nameInput,
-      amt: this.state.amountInput
+      apple: this.state.appleInput,
+      orange: this.state.orangeInput
     });
     this.setState({
-      data: copiedData
+      data: copiedData,
+      nameInput: "",
+      appleInput: "",
+      orangeInput: ""
     });
   };
 
   handleDeleteData = () => {
     const copiedData = [...this.state.data];
     const filteredData = copiedData.filter(
-      data => data.name !== this.state.nameInput
+      data => data.name.toLowerCase() !== this.state.nameInput.toLowerCase()
     );
     this.setState({
-      data: filteredData
+      data: filteredData,
+      nameInput: ""
     });
   };
 
   handleEditData = () => {
+    if (!this.state.nameInput) {
+      return;
+    }
     const copiedData = [...this.state.data];
     const foundData = copiedData.find(
-      data => data.name === this.state.nameInput
+      data => data.name.toLowerCase() === this.state.nameInput.toLowerCase()
     );
-    foundData.amt = this.state.amountInput;
-    this.setState({ data: copiedData });
+    if (!foundData) {
+      return;
+    }
+    foundData.apple = this.state.appleInput;
+    foundData.orange = this.state.orangeInput;
+    this.setState({
+      data: copiedData,
+      nameInput: "",
+      appleInput: "",
+      orangeInput: ""
+    });
   };
 
   render() {
+    const { data } = this.state;
     return (
-      <div>
-        <label htmlFor="sort-by-select">Choose Chart</label>
-        <select
-          onChange={this.handleSelectChart}
-          id="sort-by-select"
-          data-testid="sort-by-select"
-          className="btn btn-primary dropdown-toggle mx-2"
-        >
-          {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.name}
-            </option>
-          ))}
-        </select>
+      <div className="container">
+        <div className="mt-3 mb-3">
+          <label htmlFor="sort-by-select">Choose Chart</label>
+          <select
+            onChange={this.handleSelectChart}
+            id="sort-by-select"
+            className="btn btn-primary dropdown-toggle mx-2"
+          >
+            <option value="Bar Chart">Bar Chart</option>
+            <option value="Pie Chart">Pie Chart</option>
+          </select>
+        </div>
         <div className="row">
-          <div className="input-group mb-3 col-lg-4">
-            <input
-              type="text"
-              className="form-control"
+          <div className="input-group mb-3 col-lg-8">
+            <InputField
+              name="nameInput"
               placeholder="Enter name..."
-              onChange={this.handleNameInput}
+              onChange={this.handleChangeInput}
             />
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter amount..."
-              onChange={this.handleAmountInput}
+            <InputField
+              name="appleInput"
+              placeholder="Enter apple quantity..."
+              onChange={this.handleChangeInput}
+            />
+            <InputField
+              name="orangeInput"
+              placeholder="Enter orange quantity..."
+              onChange={this.handleChangeInput}
             />
             <div className="input-group-append">
-              <button
-                className="btn btn-success"
-                type="button"
+              <Button
+                sign="+"
+                color="btn-success"
                 onClick={this.handleCreateData}
-              >
-                +
-              </button>
+              />
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="input-group mb-3 col-lg-4">
-            <input
-              type="text"
-              className="form-control"
+          <div className="input-group mb-3 col-lg-8">
+            <InputField
+              name="nameInput"
               placeholder="Delete name..."
-              onChange={this.handleNameInput}
+              onChange={this.handleChangeInput}
             />
             <div className="input-group-append">
-              <button
-                className="btn btn-danger"
-                type="button"
+              <Button
+                sign="-"
+                color="btn-danger"
                 onClick={this.handleDeleteData}
-              >
-                -
-              </button>
+              />
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="input-group mb-3 col-lg-4">
-            <input
-              type="text"
-              className="form-control"
+          <div className="input-group mb-3 col-lg-8">
+            <InputField
+              name="nameInput"
               placeholder="Enter name..."
-              onChange={this.handleNameInput}
+              onChange={this.handleChangeInput}
             />
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Editted amount..."
-              onChange={this.handleAmountInput}
+            <InputField
+              name="appleInput"
+              placeholder="Edit apple quantity..."
+              onChange={this.handleChangeInput}
+            />
+            <InputField
+              name="orangeInput"
+              placeholder="Edit orange quantity..."
+              onChange={this.handleChangeInput}
             />
             <div className="input-group-append">
-              <button
-                className="btn btn-success"
-                type="button"
+              <Button
+                sign="+"
+                color="btn-success"
                 onClick={this.handleEditData}
-              >
-                +
-              </button>
+              />
             </div>
           </div>
         </div>
-        {this.state.selectedChart === "bar" ? (
-          <BarChart
-            width={1000}
-            height={500}
-            data={this.state.data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="amt" fill="#8884d8" />
-          </BarChart>
+        {this.state.isBarchartDisplayed ? (
+          <Barchart data={data} />
         ) : (
-          <LineChart
-            width={1000}
-            height={500}
-            data={this.state.data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="amt"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
+          <Piechart data={data} />
         )}
       </div>
     );
