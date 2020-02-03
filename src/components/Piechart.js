@@ -3,29 +3,79 @@ import { Tooltip, PieChart, Pie, Label } from "recharts";
 
 function Piechart({ data }) {
   return (
-    <PieChart width={600} height={600}>
+    <PieChart width={800} height={600}>
       <Pie
         data={data}
         dataKey="apple"
-        cx={100}
+        cx={200}
         cy={200}
         outerRadius={60}
         fill="#E32636"
-        label
+        label={({
+          cx,
+          cy,
+          midAngle,
+          innerRadius,
+          outerRadius,
+          value,
+          index
+        }) => {
+          const RADIAN = Math.PI / 180;
+          const radius = 25 + innerRadius + (outerRadius - innerRadius);
+          const x = cx + radius * Math.cos(-midAngle * RADIAN);
+          const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+          return (
+            <text
+              x={x}
+              y={y}
+              fill="#E32636"
+              textAnchor={x > cx ? "start" : "end"}
+              dominantBaseline="central"
+            >
+              {data[index].name} ({value})
+            </text>
+          );
+        }}
       >
-        <Label value="apple" position="outside" />
+        <Label value="APPLE" position="center" />
       </Pie>
       <Pie
         data={data}
         dataKey="orange"
-        cx={400}
+        cx={600}
         cy={200}
         innerRadius={70}
         outerRadius={90}
         fill="#FF7E00"
-        label
+        label={({
+          cx,
+          cy,
+          midAngle,
+          innerRadius,
+          outerRadius,
+          value,
+          index
+        }) => {
+          const RADIAN = Math.PI / 180;
+          const radius = 25 + innerRadius + (outerRadius - innerRadius);
+          const x = cx + radius * Math.cos(-midAngle * RADIAN);
+          const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+          return (
+            <text
+              x={x}
+              y={y}
+              fill="#FF7E00"
+              textAnchor={x > cx ? "start" : "end"}
+              dominantBaseline="central"
+            >
+              {data[index].name} ({value})
+            </text>
+          );
+        }}
       >
-        <Label value="orange" position="center" />
+        <Label value="ORANGE" position="center" />
       </Pie>
       <Tooltip />
     </PieChart>

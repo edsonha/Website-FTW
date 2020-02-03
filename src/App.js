@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { getData } from "./seedData";
 import Barchart from "./components/Barchart";
 import Piechart from "./components/Piechart";
-import InputField from "./components/InputField";
-import Button from "./components/Button";
+import AddDataConsole from "./components/AddDataConsole";
+import DeleteDataConsole from "./components/DeleteDataConsole";
+import EditDataConsole from "./components/EditDataConsole";
+import SelectChart from "./components/SelectChart";
 
 class App extends Component {
   state = {
@@ -29,9 +31,10 @@ class App extends Component {
     const copiedData = [...this.state.data];
     copiedData.push({
       name: this.state.nameInput,
-      apple: this.state.appleInput,
-      orange: this.state.orangeInput
+      apple: Number(this.state.appleInput),
+      orange: Number(this.state.orangeInput)
     });
+    console.log(copiedData);
     this.setState({
       data: copiedData,
       nameInput: "",
@@ -62,8 +65,8 @@ class App extends Component {
     if (!foundData) {
       return;
     }
-    foundData.apple = this.state.appleInput;
-    foundData.orange = this.state.orangeInput;
+    foundData.apple = Number(this.state.appleInput);
+    foundData.orange = Number(this.state.orangeInput);
     this.setState({
       data: copiedData,
       nameInput: "",
@@ -76,85 +79,19 @@ class App extends Component {
     const { data } = this.state;
     return (
       <div className="container">
-        <div className="mt-3 mb-3">
-          <label htmlFor="sort-by-select">Choose Chart</label>
-          <select
-            onChange={this.handleSelectChart}
-            id="sort-by-select"
-            className="btn btn-primary dropdown-toggle mx-2"
-          >
-            <option value="Bar Chart">Bar Chart</option>
-            <option value="Pie Chart">Pie Chart</option>
-          </select>
-        </div>
-        <div className="row">
-          <div className="input-group mb-3 col-lg-8">
-            <InputField
-              name="nameInput"
-              placeholder="Enter name..."
-              onChange={this.handleChangeInput}
-            />
-            <InputField
-              name="appleInput"
-              placeholder="Enter apple quantity..."
-              onChange={this.handleChangeInput}
-            />
-            <InputField
-              name="orangeInput"
-              placeholder="Enter orange quantity..."
-              onChange={this.handleChangeInput}
-            />
-            <div className="input-group-append">
-              <Button
-                sign="+"
-                color="btn-success"
-                onClick={this.handleCreateData}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-group mb-3 col-lg-8">
-            <InputField
-              name="nameInput"
-              placeholder="Delete name..."
-              onChange={this.handleChangeInput}
-            />
-            <div className="input-group-append">
-              <Button
-                sign="-"
-                color="btn-danger"
-                onClick={this.handleDeleteData}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-group mb-3 col-lg-8">
-            <InputField
-              name="nameInput"
-              placeholder="Enter name..."
-              onChange={this.handleChangeInput}
-            />
-            <InputField
-              name="appleInput"
-              placeholder="Edit apple quantity..."
-              onChange={this.handleChangeInput}
-            />
-            <InputField
-              name="orangeInput"
-              placeholder="Edit orange quantity..."
-              onChange={this.handleChangeInput}
-            />
-            <div className="input-group-append">
-              <Button
-                sign="+"
-                color="btn-success"
-                onClick={this.handleEditData}
-              />
-            </div>
-          </div>
-        </div>
+        <SelectChart handleSelectChart={this.handleSelectChart} />
+        <AddDataConsole
+          handleChangeInput={this.handleChangeInput}
+          handleCreateData={this.handleCreateData}
+        />
+        <DeleteDataConsole
+          handleChangeInput={this.handleChangeInput}
+          handleDeleteData={this.handleDeleteData}
+        />
+        <EditDataConsole
+          handleChangeInput={this.handleChangeInput}
+          handleEditData={this.handleEditData}
+        />
         {this.state.isBarchartDisplayed ? (
           <Barchart data={data} />
         ) : (
