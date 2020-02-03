@@ -10,9 +10,13 @@ import SelectChart from "./components/SelectChart";
 class App extends Component {
   state = {
     isBarchartDisplayed: true,
-    nameInput: "",
-    appleInput: "",
-    orangeInput: "",
+    nameInputDelete: "",
+    nameInputAdd: "",
+    appleInputAdd: "",
+    orangeInputAdd: "",
+    nameInputEdit: "",
+    appleInputEdit: "",
+    orangeInputEdit: "",
     data: getData()
   };
 
@@ -24,73 +28,109 @@ class App extends Component {
     this.setState({ [name]: event.target.value });
   };
 
+  isExistingNamePresent = input =>
+    this.state.data.find(
+      data => data.name.toLowerCase() === input.toLowerCase()
+    );
+
   handleCreateData = () => {
-    if (!this.state.nameInput) {
+    if (!this.state.nameInputAdd) {
+      return;
+    }
+    if (this.isExistingNamePresent(this.state.nameInputAdd)) {
+      return;
+    }
+    if (
+      isNaN(Number(this.state.appleInputAdd)) ||
+      isNaN(Number(this.state.orangeInputAdd))
+    ) {
       return;
     }
     const copiedData = [...this.state.data];
     copiedData.push({
-      name: this.state.nameInput,
-      apple: Number(this.state.appleInput),
-      orange: Number(this.state.orangeInput)
+      name: this.state.nameInputAdd,
+      apple: Number(this.state.appleInputAdd),
+      orange: Number(this.state.orangeInputAdd)
     });
-    console.log(copiedData);
     this.setState({
       data: copiedData,
-      nameInput: "",
-      appleInput: "",
-      orangeInput: ""
+      nameInputAdd: "",
+      appleInputAdd: "",
+      orangeInputAdd: ""
     });
   };
 
   handleDeleteData = () => {
     const copiedData = [...this.state.data];
     const filteredData = copiedData.filter(
-      data => data.name.toLowerCase() !== this.state.nameInput.toLowerCase()
+      data =>
+        data.name.toLowerCase() !== this.state.nameInputDelete.toLowerCase()
     );
     this.setState({
       data: filteredData,
-      nameInput: ""
+      nameInputDelete: ""
     });
   };
 
   handleEditData = () => {
-    if (!this.state.nameInput) {
+    if (!this.state.nameInputEdit) {
+      return;
+    }
+    if (
+      isNaN(Number(this.state.appleInputEdit)) ||
+      isNaN(Number(this.state.orangeInputEdit))
+    ) {
       return;
     }
     const copiedData = [...this.state.data];
     const foundData = copiedData.find(
-      data => data.name.toLowerCase() === this.state.nameInput.toLowerCase()
+      data => data.name.toLowerCase() === this.state.nameInputEdit.toLowerCase()
     );
     if (!foundData) {
       return;
     }
-    foundData.apple = Number(this.state.appleInput);
-    foundData.orange = Number(this.state.orangeInput);
+    foundData.apple = Number(this.state.appleInputEdit);
+    foundData.orange = Number(this.state.orangeInputEdit);
     this.setState({
       data: copiedData,
-      nameInput: "",
-      appleInput: "",
-      orangeInput: ""
+      nameInputEdit: "",
+      appleInputEdit: "",
+      orangeInputEdit: ""
     });
   };
 
   render() {
-    const { data } = this.state;
+    const {
+      data,
+      nameInputDelete,
+      nameInputAdd,
+      appleInputAdd,
+      orangeInputAdd,
+      nameInputEdit,
+      appleInputEdit,
+      orangeInputEdit
+    } = this.state;
     return (
       <div className="container">
         <SelectChart handleSelectChart={this.handleSelectChart} />
         <AddDataConsole
           handleChangeInput={this.handleChangeInput}
           handleCreateData={this.handleCreateData}
+          nameInputAdd={nameInputAdd}
+          appleInputAdd={appleInputAdd}
+          orangeInputAdd={orangeInputAdd}
         />
         <DeleteDataConsole
           handleChangeInput={this.handleChangeInput}
           handleDeleteData={this.handleDeleteData}
+          nameInputDelete={nameInputDelete}
         />
         <EditDataConsole
           handleChangeInput={this.handleChangeInput}
           handleEditData={this.handleEditData}
+          nameInputEdit={nameInputEdit}
+          appleInputEdit={appleInputEdit}
+          orangeInputEdit={orangeInputEdit}
         />
         {this.state.isBarchartDisplayed ? (
           <Barchart data={data} />
