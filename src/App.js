@@ -1,4 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
+
+// Part 4 - React.lazy
 import "./App.css";
 
 import Page1 from "./components/Page1.jsx";
@@ -8,7 +10,11 @@ import Page1 from "./components/Page1.jsx";
 // import Page3 from "./components/Page3.jsx";
 
 // Part 3 - Cleaner Code Splitting
-import { AsyncComponent } from "./components/AsyncComponent";
+// import { AsyncComponent } from "./components/AsyncComponent";
+
+// Part 4 - React.lazy
+const Page2Lazy = React.lazy(() => import("./components/Page2"));
+const Page3Lazy = React.lazy(() => import("./components/Page3"));
 
 class App extends React.Component {
   constructor() {
@@ -53,6 +59,9 @@ class App extends React.Component {
     // }
 
     // Part 3 - Cleaner Code Splitting
+    // this.setState({ route });
+
+    // Part 4 - React.Lazy
     this.setState({ route });
   };
 
@@ -75,14 +84,32 @@ class App extends React.Component {
     // }
 
     // Part 3 - Cleaner Code Splitting
-    if (this.state.route === "page1") {
-      return <Page1 onRouteChange={this.onRouteChange} />;
-    } else if (this.state.route === "page2") {
-      const AsyncPage2 = AsyncComponent(() => import("./components/Page2"));
-      return <AsyncPage2 onRouteChange={this.onRouteChange} />;
-    } else {
-      const AsyncPage3 = AsyncComponent(() => import("./components/Page3"));
-      return <AsyncPage3 onRouteChange={this.onRouteChange} />;
+    // if (this.state.route === "page1") {
+    //   return <Page1 onRouteChange={this.onRouteChange} />;
+    // } else if (this.state.route === "page2") {
+    //   const AsyncPage2 = AsyncComponent(() => import("./components/Page2"));
+    //   return <AsyncPage2 onRouteChange={this.onRouteChange} />;
+    // } else {
+    //   const AsyncPage3 = AsyncComponent(() => import("./components/Page3"));
+    //   return <AsyncPage3 onRouteChange={this.onRouteChange} />;
+    // }
+
+    // Part 4 - React.Lazy
+    switch (this.state.route) {
+      case "page2":
+        return (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Page2Lazy onRouteChange={this.onRouteChange} />
+          </Suspense>
+        );
+      case "page3":
+        return (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Page3Lazy onRouteChange={this.onRouteChange} />
+          </Suspense>
+        );
+      default:
+        return <Page1 onRouteChange={this.onRouteChange} />;
     }
   }
 }
