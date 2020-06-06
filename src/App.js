@@ -2,9 +2,13 @@ import React from "react";
 import "./App.css";
 
 import Page1 from "./components/Page1.jsx";
+
 // Part 2 - Code Splitting - manual
 // import Page2 from "./components/Page2.jsx";
 // import Page3 from "./components/Page3.jsx";
+
+// Part 3 - Cleaner Code Splitting
+import { AsyncComponent } from "./components/AsyncComponent";
 
 class App extends React.Component {
   constructor() {
@@ -13,7 +17,7 @@ class App extends React.Component {
       route: "page1",
 
       // Part 2 - Code Splitting - manual
-      component: null,
+      // component: null,
     };
   }
 
@@ -22,25 +26,34 @@ class App extends React.Component {
     // this.setState({ route });
 
     // Part 2 - Code Splitting - manual
-    if (route === "page1") {
-      this.setState({ route: route });
-    } else if (route === "page2") {
-      import("./components/Page2")
-        .then((Page2) => {
-          this.setState({ route: route, component: Page2.default });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      import("./components/Page3")
-        .then((Page3) => {
-          this.setState({ route: route, component: Page3.default });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (route === "page1") {
+    //   this.setState({ route: route });
+    // } else if (route === "page2") {
+    //   import("./components/Page2")
+    //     .then((Page2) => {
+    //       this.setState({
+    //         route: route,
+    //         component: Page2.default,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // } else {
+    //   import("./components/Page3")
+    //     .then((Page3) => {
+    //       this.setState({
+    //         route: route,
+    //         component: Page3.default,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
+
+    // Part 3 - Cleaner Code Splitting
+    this.setState({ route });
   };
 
   render() {
@@ -55,10 +68,21 @@ class App extends React.Component {
     // }
 
     // Part 2 - No Code Splitting - manual
+    // if (this.state.route === "page1") {
+    //   return <Page1 onRouteChange={this.onRouteChange} />;
+    // } else {
+    //   return <this.state.component onRouteChange={this.onRouteChange} />;
+    // }
+
+    // Part 3 - Cleaner Code Splitting
     if (this.state.route === "page1") {
       return <Page1 onRouteChange={this.onRouteChange} />;
+    } else if (this.state.route === "page2") {
+      const AsyncPage2 = AsyncComponent(() => import("./components/Page2"));
+      return <AsyncPage2 onRouteChange={this.onRouteChange} />;
     } else {
-      return <this.state.component onRouteChange={this.onRouteChange} />;
+      const AsyncPage3 = AsyncComponent(() => import("./components/Page3"));
+      return <AsyncPage3 onRouteChange={this.onRouteChange} />;
     }
   }
 }
