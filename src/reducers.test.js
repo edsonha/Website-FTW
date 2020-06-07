@@ -29,3 +29,44 @@ describe("searchRobots", () => {
     });
   });
 });
+
+describe("requestRobots", () => {
+  const intialStateRobots = {
+    robots: [],
+    isPending: false,
+  };
+
+  it("should return the intial state", () => {
+    expect(reducers.requestRobots(undefined, {})).toEqual(intialStateRobots);
+  });
+
+  it("should handle REQUEST_ROBOTS_PENDING action", () => {
+    expect(
+      reducers.requestRobots(intialStateRobots, {
+        type: REQUEST_ROBOTS_PENDING,
+      })
+    ).toEqual({ isPending: true, robots: [] });
+  });
+
+  it("should handle REQUEST_ROBOTS_SUCCESS action", () => {
+    const mockRobots = [
+      { id: 1, name: "John", email: "john@gmail.com" },
+      { id: 2, name: "Abby", email: "abby@gmail.com" },
+    ];
+    expect(
+      reducers.requestRobots(intialStateRobots, {
+        type: REQUEST_ROBOTS_SUCCESS,
+        payload: mockRobots,
+      })
+    ).toEqual({ isPending: false, robots: mockRobots });
+  });
+
+  it("should handle REQUEST_ROBOTS_FAILED action", () => {
+    expect(
+      reducers.requestRobots(intialStateRobots, {
+        type: REQUEST_ROBOTS_FAILED,
+        payload: "ERROR",
+      })
+    ).toEqual({ isPending: false, robots: [], error: "ERROR" });
+  });
+});
