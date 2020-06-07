@@ -23,10 +23,25 @@ describe("setSearchField action", () => {
 });
 
 describe("requestRobots action", () => {
-  it("should handle requesting robots API", () => {
+  it("handles requesting robots API Pending and Success", async () => {
     const store = mockStore({});
-    store.dispatch(actions.requestRobots());
+    await store.dispatch(actions.requestRobots());
     const action = store.getActions();
-    expect(action[0]).toEqual({ type: REQUEST_ROBOTS_PENDING });
+    const firstExpectedAction = {
+      type: REQUEST_ROBOTS_PENDING,
+    };
+    expect(action[0]).toEqual(firstExpectedAction);
+    expect(action[1].type).toBe(REQUEST_ROBOTS_SUCCESS);
+  });
+
+  it("handles requesting robots API Pending and Failure", async () => {
+    const store = mockStore({});
+    await store.dispatch(actions.requestRobots("WrongURL"));
+    const action = store.getActions();
+    const firstExpectedAction = {
+      type: REQUEST_ROBOTS_PENDING,
+    };
+    expect(action[0]).toEqual(firstExpectedAction);
+    expect(action[1].type).toBe(REQUEST_ROBOTS_FAILED);
   });
 });
