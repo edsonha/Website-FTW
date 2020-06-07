@@ -3,5 +3,7 @@ import { shallow } from "enzyme";
 import Card from "./Card";
 
 it("should render Card component", () => {
-  expect(shallow(<Card />).length).toBe(1);
+  const wrapper = shallow(<Card />);
+  expect(wrapper.length).toBe(1);
+  expect(wrapper).toMatchSnapshot();
 });
