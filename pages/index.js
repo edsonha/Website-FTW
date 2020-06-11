@@ -7,6 +7,9 @@ const Index = () => (
     <Link href="/about">
       <button>About</button>
     </Link>
+    <Link href="/robots">
+      <button>Robots</button>
+    </Link>
     {/* With a tag, you are doing normal server side rendering */}
     <a href="/contact">Contact Me</a>
   </div>
